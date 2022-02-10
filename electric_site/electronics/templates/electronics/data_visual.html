@@ -1,24 +1,22 @@
 
 {% extends 'electronics/base.html' %}
 
-    {% block content %}
-    <ul>
-        
+{% block content %}
+    <h2>Cerca dati nel database</h2>
 
-        {% for k, i in extracted_data %}
-        <li>
+    <form action="/search">
+        <label for="modello"> nome del modello:</label>
+        <input type="text" id="modello" name="modello"><br><br>
+        <input type="submit" value="Cerca">
+    </form>
+    {% if extracted_data %}
+        <ul>
+            {% for k, i in extracted_data %}
+            <li>
+                <a> {{ k }} </a>{{ i }}
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
-            <a> {{ k }} </a>{{ i }}
-        </li>
-        {% endfor %}
-    </ul>
-
-                <form action="/search">
-                    <label for="modello"> </label>
-                    <input type="submit" value="Indietro">
-                </form>
-                <form action="/">
-                    <label for="modello"> </label>
-                    <input type="submit" value="Home">
-                </form>
-    {% endblock %}
+{% endblock %}

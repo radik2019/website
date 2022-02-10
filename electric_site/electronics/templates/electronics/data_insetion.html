@@ -1,16 +1,18 @@
 
 
 {% extends 'electronics/base.html' %}
-{% block head %}{% endblock %}
-{% block mainmenu %}{% endblock %}
-{% block content %}
-    <p><h1>Visualizzazione dati</h1></p>
-        <h2>Cerca dati nel database</h2>
 
-        <form action="/search">
-            <label for="modello"> nome del modello:</label>
-            <input type="text" id="modello" name="modello"><br><br>
-            <input type="submit" value="Cerca">
-        </form>
-{% endblock %}
+    {% block content %}
 
+    <h1>Inserimento dei dati nel database</h1>
+        
+    <form action="/categories">
+        <label for="marca">Marca:</label>
+        <input type="text" id="marca" name="marca"><br><br>
+        <label for="modello">Modello:</label>
+        <input type="text" id="modello" name="modello"><br><br>
+        <input type="submit" value="Inserisci">
+    </form>
+
+    <p>Clicca "Inserisci"</p>
+    {% endblock %}
