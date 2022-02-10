@@ -1,0 +1,16 @@
+
+
+{% extends 'electronics/base.html' %}
+{% block head %}{% endblock %}
+{% block mainmenu %}{% endblock %}
+{% block content %}
+    <p><h1>Visualizzazione dati</h1></p>
+        <h2>Cerca dati nel database</h2>
+
+        <form action="/search">
+            <label for="modello"> nome del modello:</label>
+            <input type="text" id="modello" name="modello"><br><br>
+            <input type="submit" value="Cerca">
+        </form>
+{% endblock %}
+

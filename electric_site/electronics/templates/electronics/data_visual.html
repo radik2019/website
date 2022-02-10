@@ -1,0 +1,24 @@
+
+{% extends 'electronics/base.html' %}
+
+    {% block content %}
+    <ul>
+        
+
+        {% for k, i in extracted_data %}
+        <li>
+
+            <a> {{ k }} </a>{{ i }}
+        </li>
+        {% endfor %}
+    </ul>
+
+                <form action="/search">
+                    <label for="modello"> </label>
+                    <input type="submit" value="Indietro">
+                </form>
+                <form action="/">
+                    <label for="modello"> </label>
+                    <input type="submit" value="Home">
+                </form>
+    {% endblock %}
