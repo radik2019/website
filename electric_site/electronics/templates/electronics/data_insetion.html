@@ -6,7 +6,8 @@
 
     <h1>Inserimento dei dati nel database</h1>
         
-    <form action="/categories">
+    <form action="/categories/" method="post">
+        {% csrf_token %}
         <label for="marca">Marca:</label>
         <input type="text" id="marca" name="marca"><br><br>
         <label for="modello">Modello:</label>
@@ -16,3 +17,4 @@
 
     <p>Clicca "Inserisci"</p>
     {% endblock %}
+

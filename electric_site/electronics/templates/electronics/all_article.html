@@ -1,0 +1,21 @@
+
+
+
+{% extends 'electronics/base.html' %}
+
+{% block content %}
+<div class="list-group">
+    
+    {% for inst in extracted_data %}
+
+
+        <button type="submit" class="list-group-item list-group-item-action" >
+        {{ inst.title }} -- {{inst.pk}}
+     
+        </button>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}
