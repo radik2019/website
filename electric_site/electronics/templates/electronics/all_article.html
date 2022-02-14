@@ -8,12 +8,11 @@
     
     {% for inst in extracted_data %}
 
-
+    <form action="all_article/" method="get">
         <button type="submit" class="list-group-item list-group-item-action" >
         {{ inst.title }} -- {{inst.pk}}
-     
         </button>
-
+    </form>
 {% endfor %}
 
 </div>

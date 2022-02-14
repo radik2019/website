@@ -2,6 +2,13 @@
 
 {% block content %}
 
+<ol>
+    <h2><title>Dettagli articolo</title></h2>
+    <li>{{ extracted_data.title }}</li>
+    <li>{{ extracted_data.content }}</li>
+    <li>{{ extracted_data.time_create }}</li>
+    <li>{{ extracted_data.time_update }}</li>
+</ol>
 
-{{ extracted_data.title }}
 {% endblock %}
+
