@@ -1,4 +1,6 @@
 
+from datetime import datetime
+from http import HTTPStatus
 from unicodedata import name
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, Http404, QueryDict
@@ -31,35 +33,37 @@ class SerData:
                                          fields=('title', 'content','time_create',  'time_update'),
                                          indent=4)
             return HttpResponse(data)
-        raise Http404("****************Error*****************")
+        raise Http404("**Error**")
 
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @csrf_exempt
     def update_article(self, request):
 
         if request.method == "POST":
             df = json.loads(request.body)
-            print(df)
-            brand: str = request.POST.get('brand')
-            model: str = request.POST.get('model')
-            print('~~~~~~~~~~~~~~~~~~~~~~~',brand)            
-            print('               ', brand, model)
-            df = Electronics.objects.filter(content=df['model'])
-            
-            srlzd = serializers.serialize('json',
-                                          df,
-                                     fields=('title', 'content', 'time_create', 'time_update'),
-                                     indent=4)
-            print(srlzd)
-            return HttpResponse(srlzd)
-        return HttpResponse('df[0]')
+            query = Electronics.objects.filter(content=df['model'])
+            if query:
+                debug_(query)
+                query.update(title=df["updated_brand"],
+                            content=df["updated_model"],
+                            time_update=datetime.now())
+                srlzd = serializers.serialize('json',
+                                            query,
+                                        fields=('id', 'title', 'content', 'time_create', 'time_update'),
+                                        indent=4)
 
+                return HttpResponse(srlzd)
+            return HttpResponse(request.body, status=404)
+        return HttpResponse('df[0]', status=405)
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @csrf_exempt
     def searche_by_brand(self, request, brand_name_product):
         data = serializers.serialize('json',
                                      Electronics.objects.filter(title__istartswith=brand_name_product),
-                                     fields=('title', 'content', 'time_create', 'time_update'),
+                                     fields=('id', 'title', 'content', 'time_create', 'time_update'),
                                      indent=4)
         return HttpResponse(data)
 

@@ -11,8 +11,6 @@ urlpatterns = [
 
     path('json_data/all/', SerData().all_data),
     path('json_data/searchbrand/<str:brand_name_product>/', SerData().searche_by_brand),
-    path('json_data/search-by-article/', SerData().update_article),
+    path('json_data/update-article/', SerData().update_article),
     path('json_data/post/', SerData().post_),
-    
-    
 ]
