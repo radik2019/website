@@ -1,5 +1,6 @@
 
 from datetime import datetime
+from django.shortcuts import redirect
 from http import HTTPStatus
 from unicodedata import name
 from django.shortcuts import render
@@ -89,11 +90,16 @@ def detailed_data(request, article_id):
                   'electronics/generated_visual.html',
                   {'title': title, 'extracted_data': data_s})
 
+
+def delete_data(request, article_id):
+    data_s = Electronics.objects.get(pk=article_id)
+    data_s.delete()
+    return redirect('/all_article/')
+    
  
 def show_all_article(request):
     data_s = Electronics.objects.all()    
     title = 'All_article'
-    print('\n\n\n')
     return  render(request,
                    'electronics/all_article.html',
                    {'title': title, 'extracted_data': data_s})
@@ -113,8 +119,6 @@ def data_visualization(request):
         marca: str = request.GET.get('modello')
         if marca:
             debug_(marca)
-            print(request.GET)
-
             lst = Electronics.objects.filter(title__istartswith=marca)
             data_s = [(query.title, query.content) for query in lst]
         else: data_s = []
@@ -128,12 +132,9 @@ def categories(request):
     if request.method == "POST":
         marca: str = request.POST.get('marca').capitalize()
         model: str = request.POST.get('modello').capitalize()
-        print(f'{"-" * 50}\n\n')
-        print(marca, model)
-        print(request.POST)
-        dt = models.Electronics(title=marca, content=model)
-        dt.save()
-        print(f'\n\n{"-" * 50}')
+        if marca and model:
+            dt = models.Electronics(title=marca, content=model)
+            dt.save()
     return render(request, 'electronics/data_insetion.html', {'title':title})
 
 

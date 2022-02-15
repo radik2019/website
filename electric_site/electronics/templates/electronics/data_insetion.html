@@ -4,17 +4,24 @@
 
     {% block content %}
 
-    <h1>Inserimento dei dati nel database</h1>
-        
+    <h2 align="center">Inserimento dei dati nel database</h1>
+
+
     <form action="/categories/" method="post">
         {% csrf_token %}
-        <label for="marca">Marca:</label>
-        <input type="text" id="marca" name="marca"><br><br>
-        <label for="modello">Modello:</label>
-        <input type="text" id="modello" name="modello"><br><br>
-        <input type="submit" value="Inserisci">
+    <div class="mb-3">
+
+        <input type="text" class="form-control" name="marca" id="marca" placeholder="Marca del modello" bgcolor="#3d3d3d">
+    </div>
+
+    <div class="mb-3">
+
+        <input type="text" class="form-control" name="modello" id="modello" placeholder="Modello del telefono">
+    </div>
+    <input type="submit" value="Inserisci">
     </form>
 
-    <p>Clicca "Inserisci"</p>
+    {% comment %} ################################################################# {% endcomment %}
+
     {% endblock %}
 

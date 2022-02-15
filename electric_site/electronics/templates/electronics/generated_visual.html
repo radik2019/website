@@ -9,6 +9,11 @@
     <li>{{ extracted_data.time_create }}</li>
     <li>{{ extracted_data.time_update }}</li>
 </ol>
+<form action="/deletedata/{{extracted_data.pk}}/" method="get">
+
+<input type="submit" value="Cancella" >
+<input type="submit" value="Modifica" >
+</form>
 
 {% endblock %}
 
