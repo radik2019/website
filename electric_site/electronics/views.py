@@ -5,6 +5,7 @@ from unicodedata import name
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, Http404, QueryDict
 from . import models
+
 from django.core import serializers
 import json
 from .models import Electronics
@@ -90,7 +91,6 @@ def detailed_data(request, article_id):
 
  
 def show_all_article(request):
-
     data_s = Electronics.objects.all()    
     title = 'All_article'
     print('\n\n\n')
@@ -111,12 +111,13 @@ def data_visualization(request):
     if request.GET:
 
         marca: str = request.GET.get('modello')
-        print(f'{"-" * 50}\n\n')
-        print(request.GET)
+        if marca:
+            debug_(marca)
+            print(request.GET)
 
-        lst = Electronics.objects.filter(title__istartswith=marca)
-        data_s = [(query.title, query.content) for query in lst]
-
+            lst = Electronics.objects.filter(title__istartswith=marca)
+            data_s = [(query.title, query.content) for query in lst]
+        else: data_s = []
         return render(request, 'electronics/data_visual.html', {'extracted_data': data_s, 'title':title})
     data_s = []
     return render(request, 'electronics/data_visual.html', {'extracted_data': data_s, 'title':title})
@@ -124,7 +125,6 @@ def data_visualization(request):
 
 def categories(request):
     title = "Inserimento"
-    
     if request.method == "POST":
         marca: str = request.POST.get('marca').capitalize()
         model: str = request.POST.get('modello').capitalize()
