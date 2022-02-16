@@ -161,6 +161,8 @@ def categories(request):
     if request.method == "POST":
         marca: str = request.POST.get('marca').capitalize()
         model: str = request.POST.get('modello').capitalize()
+        osystem = request.POST.get('osystem').capitalize()
+        debug_(osystem)
         marca = ' '.join(marca.split())
         model = ' '.join(model.strip())
         if marca and model:
