@@ -9,15 +9,17 @@
         <input type="text" id="modello" name="modello"><br><br>
         <input type="submit" value="Cerca">
     </form>
-    {% if extracted_data %}
-        <ul>
-            {% for k, i in extracted_data %}
-            <li>
-                <a> {{ k }} </a>{{ i }}
-            </li>
-            {% endfor %}
 
-        </ul>
-    {% endif %}
-
+    <div class="list-group">
+    
+        {% for inst in extracted_data %}
+    
+            <form action="{{ inst.pk }}/">
+                <button type="submit" class="list-group-item list-group-item-action" >
+                {{ inst.title }} -- {{inst.content}}
+                </button>
+            </form>
+        {% endfor %}
+    
+    </div>
 {% endblock %}

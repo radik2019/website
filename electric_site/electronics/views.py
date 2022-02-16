@@ -148,8 +148,7 @@ def data_visualization(request):
     if request.GET:
         marca: str = request.GET.get('modello')
         if marca:
-            lst = Electronics.objects.filter(title__istartswith=marca)
-            data_s = [(query.title, query.content) for query in lst]
+            data_s = Electronics.objects.filter(title__istartswith=marca)
         else: data_s = []
         return render(request, 'electronics/data_visual.html', {'extracted_data': data_s, 'title':title})
     data_s = []
@@ -157,13 +156,20 @@ def data_visualization(request):
 
 
 def categories(request):
+    
     title = "Inserimento"
     if request.method == "POST":
         marca: str = request.POST.get('marca').capitalize()
         model: str = request.POST.get('modello').capitalize()
+        marca = ' '.join(marca.split())
+        model = ' '.join(model.strip())
         if marca and model:
-            dt = models.Electronics(title=marca, content=model)
-            dt.save()
+            st1 = set(Electronics.objects.filter(title=marca))
+            st2 = set(Electronics.objects.filter(content=model))
+            st3 = st1.intersection(st2)
+            if not st3:
+                dt = models.Electronics(title=marca, content=model)
+                dt.save()
     return render(request, 'electronics/data_insetion.html', {'title':title})
 
 
