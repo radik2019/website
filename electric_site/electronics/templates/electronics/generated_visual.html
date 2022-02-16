@@ -2,18 +2,72 @@
 
 {% block content %}
 
-<ol>
-    <h2><title>Dettagli articolo</title></h2>
-    <li>{{ extracted_data.title }}</li>
-    <li>{{ extracted_data.content }}</li>
-    <li>{{ extracted_data.time_create }}</li>
-    <li>{{ extracted_data.time_update }}</li>
-</ol>
+<br>
+
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
+        Id
+      </div>
+      <div class="col-sm">
+        {{ extracted_data.pk }}
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm">
+            Marca
+        </div>
+        <div class="col-sm">
+            {{ extracted_data.title }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm">
+            Modello
+        </div>
+        <div class="col-sm">
+            {{ extracted_data.content }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm">
+            Data creazione
+        </div>
+        <div class="col-sm">
+            {{ extracted_data.time_create }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm">
+            Data ultima Modifica
+        </div>
+        <div class="col-sm">
+            {{ extracted_data.time_update }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm">
+            Sitema operativo
+        </div>
+        <div class="col-sm">
+            {{ extracted_data.opsys.name }}
+        </div>
+      </div>
+  </div>
+<br>
 <form action="/deletedata/{{extracted_data.pk}}/" method="get"
 align="center">
-
 <!-- <input type="submit" value="Cancella" > -->
-<button type="submit" class="btn btn-danger">Cancella</button>
+<button type="submit" class="btn btn-danger" align="center">Cancella</button>
+
+
 </form>
 <form action="{{url_update}}" method="get" align="center">
     <!-- <input type="submit" value="Modifica" > -->
