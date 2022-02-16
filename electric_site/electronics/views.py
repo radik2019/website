@@ -6,7 +6,6 @@ from unicodedata import name
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, Http404, QueryDict
 from . import models
-
 from django.core import serializers
 import json
 from .models import Electronics
@@ -28,7 +27,7 @@ class SerData:
 
     @csrf_exempt
     def all_data(self, request):
-        debug_(request.method)
+
         if request.method == "GET":
             data = serializers.serialize('json',
                                          Electronics.objects.all(),
@@ -37,8 +36,6 @@ class SerData:
             return HttpResponse(data)
         raise Http404("**Error**")
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
     @csrf_exempt
     def update_article(self, request):
 
@@ -46,7 +43,6 @@ class SerData:
             df = json.loads(request.body)
             query = Electronics.objects.filter(content=df['model'])
             if query:
-                debug_(query)
                 query.update(title=df["updated_brand"],
                             content=df["updated_model"],
                             time_update=datetime.now())
@@ -54,12 +50,9 @@ class SerData:
                                             query,
                                         fields=('id', 'title', 'content', 'time_create', 'time_update'),
                                         indent=4)
-
                 return HttpResponse(srlzd)
             return HttpResponse(request.body, status=404)
         return HttpResponse('df[0]', status=405)
-
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @csrf_exempt
     def searche_by_brand(self, request, brand_name_product):
@@ -74,7 +67,6 @@ class SerData:
         if request.method == "POST":
             brand: str = request.POST.get('brand')
             model: str = request.POST.get('model')
-            
             if (brand and model):
                 dt = models.Electronics(title=brand, content=model)
                 dt.save()
@@ -82,13 +74,52 @@ class SerData:
             return HttpResponse('no data')
         return HttpResponse('no data')
 
+def updated(request, article_id):
+    title = "Updated"
 
+    data_s = Electronics.objects.filter(pk=article_id)
+    if request.method == "GET":
+        marca: str = request.GET.get('marca')
+        model: str = request.GET.get('modello')
+        if marca and model:
+            data_s.update(title=marca,
+                            content=model,
+                            time_update=datetime.now())
+        data_s = Electronics.objects.get(pk=article_id)
+    return render(request, 'electronics/updated.html',
+                  {'title': title,
+                  'extracted_data': data_s,
+                  'url_update': 'update/'
+                  })
+
+    
 def detailed_data(request, article_id):
     title = 'Single Data'
     data_s = Electronics.objects.get(pk=article_id)
     return render(request,
                   'electronics/generated_visual.html',
-                  {'title': title, 'extracted_data': data_s})
+                  {'title': title,
+                  'extracted_data': data_s,
+                  'url_update': 'update/'
+                  })
+
+
+def update_data(request, article_id):
+
+    title="Update"
+    data_s = Electronics.objects.get(pk=article_id)
+    if request.method == "GET":
+        marca: str = request.GET.get('marca')
+        model: str = request.GET.get('modello')
+
+    return render(request,
+                  'electronics/update_data.html',
+                  {
+                  'title':title,
+                  'extracted_data': data_s,
+                  'url_update': 'updated/'
+                  
+                  })
 
 
 def delete_data(request, article_id):
@@ -115,10 +146,8 @@ def home(request):
 def data_visualization(request):
     title = 'Visual'
     if request.GET:
-
         marca: str = request.GET.get('modello')
         if marca:
-            debug_(marca)
             lst = Electronics.objects.filter(title__istartswith=marca)
             data_s = [(query.title, query.content) for query in lst]
         else: data_s = []

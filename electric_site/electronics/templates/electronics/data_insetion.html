@@ -9,19 +9,17 @@
 
     <form action="/categories/" method="post">
         {% csrf_token %}
-    <div class="mb-3">
+        <div class="mb-3">
 
-        <input type="text" class="form-control" name="marca" id="marca" placeholder="Marca del modello" bgcolor="#3d3d3d">
-    </div>
+            <input type="text" class="form-control" name="marca" id="marca" placeholder="Marca del modello" bgcolor="#3d3d3d">
+        </div>
 
-    <div class="mb-3">
+        <div class="mb-3">
 
-        <input type="text" class="form-control" name="modello" id="modello" placeholder="Modello del telefono">
-    </div>
-    <input type="submit" value="Inserisci">
+            <input type="text" class="form-control" name="modello" id="modello" placeholder="Modello del telefono">
+        </div>
+        <input type="submit" value="Inserisci">
     </form>
-
-    {% comment %} ################################################################# {% endcomment %}
 
     {% endblock %}
 
