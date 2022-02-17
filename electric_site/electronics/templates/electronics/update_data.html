@@ -1,4 +1,4 @@
-<h1>ipdate data</h1>
+
 {% extends 'electronics/base.html' %}
 
     {% block content %}
@@ -19,8 +19,18 @@
 
             
         </div>
+
+        <select class="form-control" name="osystem">
+            {% for obj in osystem_col %}
+            <option>{{ obj.name }}</option>
+            {% endfor %}
+
+        </select>
+        <br>
+
         <input type="submit" value="Modifica">
     </form>
+
 
 
 

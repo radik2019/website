@@ -8,7 +8,7 @@ from django.http import HttpResponse, HttpResponseNotFound, Http404, QueryDict
 from . import models
 from django.core import serializers
 import json
-from .models import Electronics
+from .models import Electronics, OperatingSystem
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -74,22 +74,69 @@ class SerData:
             return HttpResponse('no data')
         return HttpResponse('no data')
 
+
+def get_collection_os():
+    return OperatingSystem.objects.all()
+
+
+def categories(request):
+    title = "Inserimento"
+    if request.method == "POST":
+        marca: str = request.POST.get('marca').capitalize()
+        model: str = request.POST.get('modello').capitalize()
+        osystem = request.POST.get('osystem')
+        operating_system =  OperatingSystem.objects.get(name=osystem)
+        marca = ' '.join(marca.split())
+        model = ' '.join(model.strip())
+        if marca and model:
+            st1 = set(Electronics.objects.filter(title=marca))
+            st2 = set(Electronics.objects.filter(content=model))
+            st3 = st1.intersection(st2)
+            if not st3:
+                
+                dt = models.Electronics(title=marca, content=model, opsys=operating_system)
+                dt.save()
+    return render(request, 'electronics/data_insetion.html', {'title':title, 'osystem_col':get_collection_os()})
+
+
 def updated(request, article_id):
     title = "Updated"
-
-    data_s = Electronics.objects.filter(pk=article_id)
+    data_s = Electronics.objects.get(pk=article_id)
     if request.method == "GET":
         marca: str = request.GET.get('marca')
         model: str = request.GET.get('modello')
+        osystem: str = request.GET.get('osystem')
+        operating_system = OperatingSystem.objects.get(name=osystem)
         if marca and model:
-            data_s.update(title=marca,
-                            content=model,
-                            time_update=datetime.now())
+            data_s.title = marca
+            data_s.content = model
+            data_s.time_update=datetime.now()
+            data_s.opsys = operating_system
+            data_s.save()
         data_s = Electronics.objects.get(pk=article_id)
     return render(request, 'electronics/updated.html',
                   {'title': title,
                   'extracted_data': data_s,
-                  'url_update': 'update/'
+                  'url_update': 'update/',
+                  'osystem_col':get_collection_os()
+                  })
+
+
+def update_data(request, article_id):
+    title="Update data"
+    data_s = Electronics.objects.get(pk=article_id)
+    if request.method == "GET":
+        marca: str = request.GET.get('marca')
+        model: str = request.GET.get('modello')
+    osystem = get_collection_os()
+    return render(request,
+                  'electronics/update_data.html',
+                  {
+                  'osystem': osystem,
+                  'title':title,
+                  'extracted_data': data_s,
+                  'url_update': 'updated/',
+                  'osystem_col': osystem
                   })
 
     
@@ -101,24 +148,6 @@ def detailed_data(request, article_id):
                   {'title': title,
                   'extracted_data': data_s,
                   'url_update': 'update/'
-                  })
-
-
-def update_data(request, article_id):
-
-    title="Update"
-    data_s = Electronics.objects.get(pk=article_id)
-    if request.method == "GET":
-        marca: str = request.GET.get('marca')
-        model: str = request.GET.get('modello')
-
-    return render(request,
-                  'electronics/update_data.html',
-                  {
-                  'title':title,
-                  'extracted_data': data_s,
-                  'url_update': 'updated/'
-                  
                   })
 
 
@@ -154,25 +183,7 @@ def data_visualization(request):
     data_s = []
     return render(request, 'electronics/data_visual.html', {'extracted_data': data_s, 'title':title})
 
-
-def categories(request):
     
-    title = "Inserimento"
-    if request.method == "POST":
-        marca: str = request.POST.get('marca').capitalize()
-        model: str = request.POST.get('modello').capitalize()
-        osystem = request.POST.get('osystem').capitalize()
-        debug_(osystem)
-        marca = ' '.join(marca.split())
-        model = ' '.join(model.strip())
-        if marca and model:
-            st1 = set(Electronics.objects.filter(title=marca))
-            st2 = set(Electronics.objects.filter(content=model))
-            st3 = st1.intersection(st2)
-            if not st3:
-                dt = models.Electronics(title=marca, content=model)
-                dt.save()
-    return render(request, 'electronics/data_insetion.html', {'title':title})
 
 
 def pageNotFound(request, exception):

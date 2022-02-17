@@ -20,15 +20,12 @@
         </div>
 
         <select class="form-control" name="osystem">
-            <option>Default select2</option>
-            <option>Default select3</option>
-            <option>Default select4</option>
-            <option>Default select5</option>
-            <option>Default select6</option>
-
-            <option>Default select7</option>
+            {% for obj in osystem_col %}
+            <option>{{ obj.name }}</option>
+            {% endfor %}
 
         </select>
+        
         <br>
 
         <input type="submit" value="Inserisci">

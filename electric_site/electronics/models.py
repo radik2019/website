@@ -17,6 +17,9 @@ class Electronics(models.Model):
 
 
 class OperatingSystem(models.Model):
-    name = models.CharField(max_length=40, db_index=True)
+    name = models.CharField(max_length=40, db_index=True, unique=True)
+    
+    def __str__(self):
+        return self.name
 
 
