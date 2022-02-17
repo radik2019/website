@@ -10,7 +10,7 @@ class Electronics(models.Model):
     opsys = models.ForeignKey("OperatingSystem", on_delete=models.PROTECT, null=True)
     
     def get_absolute_url(self):
-        return reverse("all_article", kwargs={"article_id": self.pk})
+        return reverse("dettailed", kwargs={"adm": self.pk})
     
     def __str__(self):
         return self.title

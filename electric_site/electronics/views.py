@@ -141,7 +141,7 @@ def update_data(request, article_id):
 
     
 def detailed_data(request, article_id):
-    title = 'Single Data'
+    title = 'Scheda Tecnica'
     data_s = Electronics.objects.get(pk=article_id)
     return render(request,
                   'electronics/generated_visual.html',
@@ -159,21 +159,21 @@ def delete_data(request, article_id):
  
 def show_all_article(request):
     data_s = Electronics.objects.all()    
-    title = 'All_article'
+    title = 'Lista Articoli'
     return  render(request,
                    'electronics/all_article.html',
                    {'title': title, 'extracted_data': data_s})
 
 
 def home(request):
-    title = 'Home'
+    title = 'Pagina Iniziale'
     return render(request,
                   'electronics/index.html',
                   {'title': title})
 
 
 def data_visualization(request):
-    title = 'Visual'
+    title = 'Cerca'
     if request.GET:
         marca: str = request.GET.get('modello')
         if marca:
@@ -182,8 +182,6 @@ def data_visualization(request):
         return render(request, 'electronics/data_visual.html', {'extracted_data': data_s, 'title':title})
     data_s = []
     return render(request, 'electronics/data_visual.html', {'extracted_data': data_s, 'title':title})
-
-    
 
 
 def pageNotFound(request, exception):
