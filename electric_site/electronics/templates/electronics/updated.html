@@ -1,0 +1,21 @@
+
+
+{% extends 'electronics/base.html' %}
+
+{% block content %}
+
+    <h2 align="center">il dato e' stato modificato correttamente</h1>
+    <br>
+    <p align="center"><h3>Brand: </h3>{{ extracted_data.title }}</p>
+    <p><h3>Modello : </h3>{{ extracted_data.content }}</p>
+    <br>
+    
+
+
+    <form  action="/all_article/" method="get">
+        <!-- <input type="submit" value="Indietro" > -->
+        <button type="submit" class="btn btn-secondary">Indietro</button>
+
+    </form>
+
+{% endblock %}

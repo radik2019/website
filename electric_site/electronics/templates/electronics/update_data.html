@@ -1,0 +1,29 @@
+<h1>ipdate data</h1>
+{% extends 'electronics/base.html' %}
+
+    {% block content %}
+
+    <h2 align="center">Modifica dei dati nel database</h1>
+
+
+    <form action="{{url_update}}" method="get">
+
+        <div class="mb-3">
+
+            <input type="text" class="form-control" name="marca" id="marca" value="{{ extracted_data.title }}" bgcolor="#3d3d3d">
+        </div>
+
+        <div class="mb-3">
+
+            <input type="text" class="form-control" name="modello" id="modello" value="{{ extracted_data.content }}">
+
+            
+        </div>
+        <input type="submit" value="Modifica">
+    </form>
+
+
+
+
+
+    {% endblock %}
