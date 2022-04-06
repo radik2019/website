@@ -1,7 +1,0 @@
-.idea
-.git
-.gitignore
-electric_site/electric_site/__pycache__/
-electric_site/electronics/__pycache__/
-electric_site/electronics/migrations/__pycache__/
-electr_v/
